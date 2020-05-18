@@ -298,6 +298,14 @@ public class cGameMainActivity extends PlayerActivity {
             if(action.equalsIgnoreCase("InGameType")){
                 UnityPlayer.UnitySendMessage("Main Camera", "onWebSocketReceiveData", dataStr);
             }
+
+            if(action.equalsIgnoreCase("StartCalibrating")){
+                UnityPlayer.UnitySendMessage("Main Camera", "StartCalibration", dataStr);
+            }
+
+            if(action.equalsIgnoreCase("CompleteCalibrating")){
+                UnityPlayer.UnitySendMessage("Main Camera", "StopCalibration", dataStr);
+            }
         } catch (Exception c) {
             cSocketHelper.printLogForUnity("cannot parse response");
         }
