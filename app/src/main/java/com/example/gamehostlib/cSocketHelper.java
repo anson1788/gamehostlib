@@ -96,5 +96,14 @@ public class cSocketHelper {
         Log.i("log for unity "," " + unitymsg);
     }
 
+    public static void TriggerBle(String val) {
+        cGameMainActivity.instance().BLEConnectionScan();
+    }
+
+
+    public static void TriggerCalibration(String val) {
+        cGameMainActivity.instance().sendRequestCalibration();
+    }
+
 
 }
