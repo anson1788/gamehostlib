@@ -59,7 +59,7 @@ public class cGameMainActivity extends PlayerActivity {
     private Handler mHandler;
 
     public static String mRingDeviceNameSpace = "BLETEST";
-
+    public static String mFootDeviceNameSpace = "ESP32test";
 
     private static cGameMainActivity m_instance;
     public static cGameMainActivity instance() {
@@ -201,11 +201,14 @@ public class cGameMainActivity extends PlayerActivity {
                         .getParcelableExtra(BluetoothDevice.EXTRA_DEVICE);
                 cSocketHelper.printLogForUnity("BLE:: "+ device.getName() );
                 if( device.getName() !=null && device.getName().contains(cGameMainActivity.mRingDeviceNameSpace)){
-                    unregisterdBLEListener();
-                    mDevicesList.add(device);
+                   unregisterdBLEListener();
+                    if(!mDevicesList.contains(device)) {
+                        mDevicesList.add(device);
+                    }
                     startConnectionToRing(device);
                 }
             }
+
         }
     };
 
@@ -216,6 +219,7 @@ public class cGameMainActivity extends PlayerActivity {
 
         crtRingObj = new BlueToothDeviceRingObject();
         crtRingObj.address = device.getAddress();
+
         if(device.getBondState() == BOND_BONDED) {
             try {
                 cSocketHelper.printLogForUnity("unbond");
@@ -251,7 +255,7 @@ public class cGameMainActivity extends PlayerActivity {
                         cSocketHelper.printLogForUnity("bonding");
                         break;
                     case BluetoothDevice.BOND_BONDED:
-                        cSocketHelper.printLogForUnity("bonded");
+
                         setupBlueToothSocketConnection(device,new blueToothSocketCallBack() {
                             @Override
                             public void onSocketConnected(BluetoothDevice _device) {
@@ -268,6 +272,7 @@ public class cGameMainActivity extends PlayerActivity {
 
                             }
                         });
+
                         break;
                     case BluetoothDevice.BOND_NONE:
                         cSocketHelper.printLogForUnity("bond_none");
